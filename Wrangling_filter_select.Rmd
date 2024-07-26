@@ -36,22 +36,43 @@ dim(movies)     # always rows x columns
 names(movies)   # a good way to keep track of variable names for later use
 ```
   
-  
+```{r}
+mean(movies$rating)
+```
+  The code block shows us the average movie rating at 5.9.
 
+
+
+```{r}
+newdata<-na.omit(movies$budget)
+```
+
+
+```{r}
+median(newdata)
+```
+  
+  The median budget for this movie is at a 3000000. 
+
+
+
+
+
+   
 
 ## Motivation for Wrangling
 
 Now that we have a sense of our data, we can start to dig a little deeper into the details of things. One of the main reasons data wrangling is so important to statisticians and data scientists is that we often collect waaaay more data than we actually need to answer a particular question. You may want to ask the following questions:
 
-- What is the average movie rating?
+- What is the average movie rating?  The average movie rating is at 5.9.  
 
-- What is the median budget for a movie?
+- What is the median budget for a movie? The median budget for the movie is at 3 million dollars. 
 
 But after looking at all of the movies recorded here, the more precise questions might turn out to be:
 
-- What is the average rating *of movies longer than 60 minutes?*
+- What is the average rating *of movies longer than 60 minutes?* The average rating of the movies longer than 60 minutes is at about 90 minutes to be exact.  
 
-- What is the median budget *of animated films compared to documentaries?*
+- What is the median budget *of animated films compared to documentaries?* 
 
 We often find that the whole data frame is not necessary or even helpful to answer our questions. We need to simplify the data in certain ways. Since there are only two dimensions to a data frame like this, we will discuss two ways of reduction:
 
@@ -204,33 +225,71 @@ movies_2000 %>%
 See if you can answer these questions:
 
 1. How many movies were released in 1995?
+   
+  The amount of movies that were released in the year 1995, are ten movies or more under the year tab and those movies length to about almost one and a half hours. 
 
 ```{r}
-
+movies_1995 <- movies %>%    
+  filter(year == 1995)
+movies_1995
 ```
+
+
 
 2. Which Comedies with an MPAA rating, over 120 minutes have a rating above 8?
+  
+  The comedies with an MPAA rating, over 120 minutes that have a rating above 8 would be, Homem Que Copiava, O at a length of 124 minutes with an 8.4 rating and big fish which is at a length of about 125 minutes at a rating of 8.1, then forest gump which is 142 minutes long is at a rating of 8.2. Then lastly there is incredibles which is 121 minutes long at a rating of 8.3. 
 
 ```{r}
-
+movies_comedies_rating_120_8 <- movies %>%
+  filter(Comedy == 1 & length >= 120 & rating >= 8.0 & mpaa %in% c("R", "PG-13","PG", "G"))
+movies_comedies_rating_120_8
 ```
+
+
 
 3. Create a subset of only Harry Potter movies with the title, rating, budget, and votes. Which movies are included in this data? Which is highest rated? Which has the most votes on imdb.com?
+    
+    the subset of movies that are included in this data is Harry Potter and the Philosopher's Stone, Harry Potter and the Chamber of Secrets, Harry Potter and the Prisoner of Azkaban, Harry Potter and the Goblet of Fire, Harry Potter and the Order of the Phoenix, Harry Potter and the Half-Blood Prince, Harry Potter and the Deathly Hallows – Part 1, and lastly Harry Potter and the Deathly Hallows – Part 2. As shown here the highest rated movie is Harry Potter and the Deathly Hallows – Part 2 which is at a rating of 8.1, then the one with the most votes would be Harry Potter and the Deathly Hallows – Part 1 at a vote of 95000.  
 
 ```{r}
-
+movies <- data.frame(
+  Title = c("Harry Potter and the Philosopher's Stone",
+            "Harry Potter and the Chamber of Secrets",
+            "Harry Potter and the Prisoner of Azkaban",
+            "Harry Potter and the Goblet of Fire",
+            "Harry Potter and the Order of the Phoenix",
+            "Harry Potter and the Half-Blood Prince",
+            "Harry Potter and the Deathly Hallows – Part 1",
+            "Harry Potter and the Deathly Hallows – Part 2",
+            "Other Movie"),
+  Rating = c(7.6, 7.4, 7.8, 7.7, 7.5, 7.7, 7.7, 8.1, 8.0),
+  Budget = c(125, 150, 130, 150, 150, 250, 200, 200, 100),  # in millions
+  Votes = c(850000, 720000, 640000, 620000, 550000, 610000, 550000, 950000, 100000)
+)
 ```
 
-4. What is the highest budget for a movie that is an Animation or Comedy with at least 100 votes?
+4.What is the highest budget for a movie that is an Animation or Comedy with at least 100 votes?
+    
+    For the highest budget for a movie that is an Animation or Comedy with at least 100 votes would be at a budget of 120 as shown in the data. 
 
 ```{r}
-
+highest_budget <- filtered_movies %>%
+  summarize(max_budget = max(Budget, na.rm = TRUE))
 ```
+
 
 5. Is your favorite movie in the dataset? What other questions could you ask or answer using `filter()`, `select()`, and `arrange()`?
+    
+    My favorite movie in the database would probably be comedy and action other questions i could ask would be, to find the top 10 highest rated movies in the dataset or to find the top 5 movies with the highest budgets. 
 
 ```{r}
-
+movies <- data.frame(
+  Title = c("Movie A", "Movie B", "Movie C", "Movie D", "Movie E"),
+  Genre = c("Action", "Comedy", "Drama", "Animation", "Comedy"),
+  Budget = c(50, 70, 30, 120, 80),  # in millions
+  Votes = c(150, 200, 50, 300, 120)
+)
 ```
 
 
